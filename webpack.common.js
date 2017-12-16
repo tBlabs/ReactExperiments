@@ -26,17 +26,8 @@ module.exports =
 
                 {
                     test: /\.css$/,
-                    include: __dirname + '/src/components',
                     use: [
                         'style-loader',
-                        {
-                            loader: 'typings-for-css-modules-loader',
-                            options: {
-                                modules: true,
-                                namedExport: true,
-                                localIdentName: '[local]__[hash:base64:8]'
-                            }
-                        }
                     ]
                 }
 

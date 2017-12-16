@@ -3,28 +3,30 @@ import getDecorators from "inversify-inject-decorators";
 import "reflect-metadata";  
 import { TYPES } from "IoC/TYPES";
 
-import { ITestStore } from "services/stores/test/ITestStore";
-import { TestStore } from "services/stores/test/TestStore";
-import { IHttp } from "services/http/IHttp";
-import { Http } from "services/http/Http";
 import { ISnackBarService } from 'services/snackbar/ISnackBarService';
 import { ISnackBarServiceEngine } from './../services/snackbar/ISnackBarServiceEngine';
 import { SnackBarService } from 'services/snackbar/SnackBarService';
+import { Http } from 'services/http/Http';
+import { LocalStorage } from './../services/localStorage/LocalStoreService';
+import { AuthService } from './../services/auth/AuthService';
+import { CqrsBus } from './../services/cqrsBus/CqrsBusService';
+import { Router } from "services/router/Router";
+import { OrdersService } from './../services/orders/OrdersService';
 
 
 const container = new Container();
 
-
-container.bind<ITestStore>(TYPES.ITestStore).to(TestStore).inSingletonScope();
-
-container.bind<IHttp>(TYPES.IHttp).to(Http); 
-
 const snackBarService = new SnackBarService();
+container.bind<SnackBarService>(SnackBarService).toConstantValue(snackBarService); 
 container.bind<ISnackBarService>(TYPES.ISnackBarService).toConstantValue(snackBarService); 
 container.bind<ISnackBarServiceEngine>(TYPES.ISnackBarServiceEngine).toConstantValue(snackBarService); 
-
+container.bind<Http>(Http).toSelf(); 
+container.bind<CqrsBus>(CqrsBus).toSelf(); 
+container.bind<AuthService>(AuthService).toSelf(); 
+container.bind<LocalStorage>(LocalStorage).toSelf(); 
+container.bind<Router>(Router).toSelf(); 
+container.bind<OrdersService>(OrdersService).toSelf(); 
 
 const LazyInject = getDecorators(container).lazyInject;
-
 
 export { container, LazyInject };

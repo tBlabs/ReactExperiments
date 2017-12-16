@@ -4,10 +4,8 @@ import { Snackbar, IconButton } from "material-ui";
 import { LazyInject } from "IoC/IoC";
 import { TYPES } from "IoC/TYPES";
 import { ISnackBarServiceEngine } from "services/snackbar/ISnackBarServiceEngine";
-import { observer } from "mobx-react";
 import CloseIcon from 'material-ui-icons/Close';
 
-@observer
 export default class AppComponent extends React.Component<{}, {}>
 {
     @LazyInject(TYPES.ISnackBarServiceEngine)

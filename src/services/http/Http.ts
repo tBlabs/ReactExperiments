@@ -4,19 +4,12 @@ import { AxiosResponse } from 'axios';
 import axios from 'axios';
 
 @injectable()
-export class Http implements IHttp
+export class Http
 {
-    public async Post(url: string, data: any): Promise<boolean>
+    public async Post(url: string, data: any, headers: any): Promise<any>
     {
-        await axios.post(url, data);
+        const response: AxiosResponse = await axios.post(url, data, { headers: headers});
 
-        return true;
-    }
-
-    public async Get(url: string): Promise<any>
-    {
-        let axiosResponse: AxiosResponse = await axios.get(url);
-
-        return axiosResponse.data;
+        return response.data;
     }
 }
