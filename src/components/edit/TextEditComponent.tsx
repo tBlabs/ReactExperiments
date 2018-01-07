@@ -1,10 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from 'react-dom';
 
-interface TextEditProps
+export interface TextEditProps
 {
     text: string;
     readOnly?: boolean;
+}
+
+export interface TextEditState
+{
+    value: string;
+    inputState: InputState;
 }
 
 enum InputState
@@ -13,24 +19,29 @@ enum InputState
     Changed
 }
 
-interface TextEditState
-{
-    value: string;
-    color: "red" | "white";
-}
-
 export class TextEditComponent extends React.Component<TextEditProps, TextEditState>
 {
+    private INPUT_STYLES = {
+        [InputState.Normal]: { background: "white" },
+        [InputState.Changed]: { background: "red" }
+    }
+
     constructor(props)
     {
         super(props);
 
-        this.state = { value: this.props.text, color: "white" };
+        this.state = {
+            value: this.props.text,
+            inputState: InputState.Normal
+        };
     }
 
     componentWillReceiveProps(newProps: TextEditProps)
     {
-        this.setState({ value: newProps.text, color: "red" });
+        this.setState({
+            value: newProps.text,
+            inputState: InputState.Changed
+        });
     }
 
     private Input_Change(event): void
@@ -44,11 +55,11 @@ export class TextEditComponent extends React.Component<TextEditProps, TextEditSt
 
         if (this.props.text !== event.target.value)
         {
-            this.setState({ color: "red" });
+            this.setState({ inputState: InputState.Changed });
         }
         else
         {
-            this.setState({ color: "white" });
+            this.setState({ inputState: InputState.Normal });
         }
     }
 
@@ -57,7 +68,7 @@ export class TextEditComponent extends React.Component<TextEditProps, TextEditSt
         return (
             <div>
                 <input
-                    style={ { background: this.state.color } }
+                    style={ this.INPUT_STYLES[this.state.inputState] }
                     value={ this.state.value }
                     onChange={ (event) => this.Input_Change(event) } />
             </div>
