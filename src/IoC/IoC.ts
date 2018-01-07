@@ -1,3 +1,4 @@
+import { HttpMock } from './../_mocks/HttpMock';
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 import "reflect-metadata";  
@@ -20,7 +21,7 @@ const snackBarService = new SnackBarService();
 container.bind<SnackBarService>(SnackBarService).toConstantValue(snackBarService); 
 container.bind<ISnackBarService>(TYPES.ISnackBarService).toConstantValue(snackBarService); 
 container.bind<ISnackBarServiceEngine>(TYPES.ISnackBarServiceEngine).toConstantValue(snackBarService); 
-container.bind<Http>(Http).toSelf(); 
+container.bind<Http>(Http).to(HttpMock); 
 container.bind<CqrsBus>(CqrsBus).toSelf(); 
 container.bind<AuthService>(AuthService).toSelf(); 
 container.bind<LocalStorage>(LocalStorage).toSelf(); 

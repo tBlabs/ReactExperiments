@@ -6,10 +6,19 @@ import axios from 'axios';
 @injectable()
 export class Http
 {
-    public async Post(url: string, data: any, headers: any): Promise<any>
+    public async Post(url: string, data: any, headers: any): Promise<AxiosResponse>
     {
-        const response: AxiosResponse = await axios.post(url, data, { headers: headers});
+        console.log('POST ', url, data, headers);
 
-        return response.data;
+        try
+        {
+            const response: AxiosResponse = await axios.post(url, data, { headers: headers });
+
+            return response;
+        } 
+        catch (ex)
+        {
+            throw new Error(ex.response);
+        }
     }
 }

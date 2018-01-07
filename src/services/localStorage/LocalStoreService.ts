@@ -1,3 +1,4 @@
+import { Order } from './../../models/Order';
 import { injectable } from 'inversify';
 import 'reflect-metadata';
 
@@ -12,5 +13,10 @@ export class LocalStorage
     public GetAuthToken(): string
     {
         return window.localStorage.getItem('authToken');
+    }
+
+    public SaveOrders(orders: Order[]): void
+    {
+
     }
 }

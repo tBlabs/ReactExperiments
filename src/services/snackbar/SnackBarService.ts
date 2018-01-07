@@ -1,22 +1,23 @@
+import { SnackData } from './ISnackData';
 import { injectable } from 'inversify';
 import { observable, action } from 'mobx';
 import { ISnackBarService } from './ISnackBarService';
 import { ISnackBarServiceEngine } from './ISnackBarServiceEngine';
+import * as Rx from 'rxjs';
 
 @injectable()
 export class SnackBarService implements ISnackBarService, ISnackBarServiceEngine
 {
-    public isVisible: boolean = false;
-    public message: string = "";
+    public data: Rx.Subject<SnackData> = new Rx.Subject();
 
     public Info(message: string): void
     {
-        this.isVisible = true;
-        this.message = message;
-    }
+        console.log('Snack!');
 
-    public Hide(): void
-    {
-        this.isVisible = false;
+        const snackData: SnackData = new SnackData();
+        snackData.snackVisability = true;
+        snackData.snackMessage = message;
+
+        this.data.next(snackData);
     }
 }

@@ -1,7 +1,7 @@
 import { Http } from '../http/Http';
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { LocalStorage } from '../localStorage/LocalStoreService';
 import { SnackBarService } from 'services/snackbar/SnackBarService';
 
@@ -18,21 +18,33 @@ export class CqrsBus
     {
         try
         {
-            // await axios('http://gravel-server.herokuapp.com', { method: 'OPTIONS' });
+            // const preflightHeaders =
+            // { 'Access-Control-Request-Method': 'DELETE',
+            //     'Access-Control-Request-Headers': 'origin, x-requested-with',
+            //     'Origin': 'http://gravel-server.herokuapp.com' }
+
+            // await this._http.Option();
 
             const headers =
                 {
                     'Content-Type': 'application/json',
-                    'Authorize': this._localStorage.GetAuthToken()
+                    'Authorization': this._localStorage.GetAuthToken()
                 };
 
-            // return await this._http.Post('http://gravel-server.herokuapp.com/api/cqrsbus', message, headers);
-            return "tooooooooooken";
+            const messagePackage = { [message.constructor.name]: { ...message } };
+
+            // return await this._http.Post('http://localhost:3000/api/cqrsbus', messagePackage, headers);
+            console.log('message: '+ JSON.stringify(messagePackage));
+            const response: AxiosResponse = await this._http.Post('http://gravel-server.herokuapp.com/api/cqrsbus', messagePackage, headers);
+            console.log('Cqrs result: ', response.data);
+            return response.data;
+            // return "tooooooooooken";b
         }
         catch (ex)
         {
-            console.log('cqrsBus.Send ex:', ex);
-            this._snackBar.Info("CQRSBUS EX:" + ex.message);
+            console.log('CqrsBus.Send ex:', ex.response);
+            this._snackBar.Info(ex.response.data.message);
+            throw ex;
         }
     }
 }

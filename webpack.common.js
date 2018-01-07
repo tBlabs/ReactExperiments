@@ -24,12 +24,12 @@ module.exports =
                     exclude: /node_modules/
                 },
 
-                {
-                    test: /\.css$/,
-                    use: [
-                        'style-loader',
-                    ]
-                }
+                // {
+                //     test: /\.css$/,
+                //     use: [
+                //         'style-loader',
+                //     ]
+                // }
 
             ]
         },
@@ -48,9 +48,8 @@ module.exports =
         [
             new HtmlWebpackPlugin(
                 {
-                    title: "App",
+                    title: "AppTitle",
                     template: "./src/index.template.ejs"
                 })
         ]
-
     };

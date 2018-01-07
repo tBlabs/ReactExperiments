@@ -1,16 +1,20 @@
+import { Order } from '../../models/Order';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { LazyInject } from "IoC/IoC";
 import { OrdersService } from '../../services/orders/OrdersService';
-import { Order } from 'models/Order';
-import { OrderComponent } from 'components/order/OrderComponent';
 
-interface OrderSelectWindowState
+interface IOrdersListProps
+{
+    history: any;
+}
+
+interface IOrdersListState
 {
     orders: Order[];
 }
 
-export class OrderSelectWindow extends React.Component<{}, OrderSelectWindowState>
+export class OrdersListComponent extends React.Component<IOrdersListProps, IOrdersListState>
 {
     @LazyInject(OrdersService)
     private _ordersService: OrdersService;
@@ -29,6 +33,13 @@ export class OrderSelectWindow extends React.Component<{}, OrderSelectWindowStat
         this.setState({ orders });
     }
 
+    OrderClicked(order: Order)
+    {
+        console.log('clicked', order);
+
+        this.props.history.push('/flow');
+    }
+
     render(): React.ReactElement<{}>
     {
         return (
@@ -36,7 +47,9 @@ export class OrderSelectWindow extends React.Component<{}, OrderSelectWindowStat
                 {
                     this.state.orders.map((o: Order) =>
                     {
-                        return <OrderComponent {...o} />
+                        return (<p key={ o.id } onClick={ () => this.OrderClicked(o) }>
+                            { o.from } - { o.to }
+                        </p>);
                     })
                 }
             </div>

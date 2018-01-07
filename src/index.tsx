@@ -1,8 +1,9 @@
+import { BrowserRouter } from 'react-router-dom';
+import { Main } from './components/main/Main';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import AppComponent from './components/app/AppComponent';
 import * as io from 'socket.io-client';
-import { WindowSelector } from 'components/windowSelector/WindowSelector';
 
 console.log(`Start in ${ process.env.NODE_ENV === 'production' ? 'production' : 'development' } mode`);
 
@@ -13,8 +14,10 @@ console.log(`Start in ${ process.env.NODE_ENV === 'production' ? 'production' : 
 // });
 
 ReactDOM.render(
-    <AppComponent>
-        <WindowSelector />
-    </AppComponent>,
+    <BrowserRouter>
+        <AppComponent>
+            <Main />
+        </AppComponent>
+    </BrowserRouter>,
     document.getElementById('root')
 );

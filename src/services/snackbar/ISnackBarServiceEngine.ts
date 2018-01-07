@@ -1,6 +1,7 @@
+import { SnackData } from './ISnackData';
+import * as Rx from 'rxjs';
+
 export interface ISnackBarServiceEngine
 {
-    isVisible: boolean;
-    message: string;
-    Hide(): void;
+    data: Rx.Subject<SnackData>;
 }
